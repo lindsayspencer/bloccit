@@ -69,6 +69,52 @@ describe("routes : flairs", () => {
                     done();
                   });
               });
+          });
+      });
+
+      // describe("GET /topics/:topicId/flairs/:id", () => {
+      //   it("should render a view with the selected flair", done => {
+      //     request.get(
+      //       `${base}/${this.topic.id}/flairs/${this.flair.id}`,
+      //       (err, res, body) => {
+      //         expect(err).toBeNull();
+      //         expect(body).toContain("sports");
+      //         done();
+      //       }
+      //     );
+      //   });
+      // });
+
+      describe("#getFlairs", () => {
+        it("should return flairs associated with a particular topic", done => {
+          this.topic.getFlairs()
+          .then((associatedFlairs) => {
+            expect(associatedFlairs[0]).not.toBeNull();
+            expect(associatedFlairs[0].name).toBe("sports");
+            expect(associatedFlairs[0].color).toBe("red");
+            expect(associatedFlairs[0].topicId).toBe(this.topic.id);
+            done();
           })
-      })
+          .catch((err) => {
+            console.log(err);
+          });
+        });
+      });
+
+      describe("POST /topics/:topicId/flairs/:id/destroy", () => {
+        it("should delete the flair with the associated ID", done => {
+          expect(this.flair.id).toBe(1);
+          request.post(
+            `${base}/${this.topic.id}/flairs/${this.flair.id}/destroy`,
+            (err, res, body) => {
+              Flair.findById(1).then(flair => {
+                expect(err).toBeNull();
+                expect(flair).toBeNull();
+                done();
+              });
+            }
+          );
+        });
+      });
+
 });

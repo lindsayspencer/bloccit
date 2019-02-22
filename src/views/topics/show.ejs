@@ -2,6 +2,23 @@
 <html>
   <head>
     <% include ../static/partials/head.ejs %>
+    <style>
+      .purple {
+        color: purple;
+      }
+      .red {
+        color: red;
+      }
+      .green {
+        color: green;
+      }
+      .blue {
+        color: blue;
+      }
+      .pink {
+        color: magenta;
+      }
+    </style>
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
@@ -11,12 +28,24 @@
 
       <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
       <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
+      <a href="/topics/<%= topic.id %>/flairs/new" class="btn btn-success">New Tag</a>
       <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 
       <p><%= topic.description %></p>
       
+      <h3>Tags</h3>
+      <% topic.flairs.forEach((flair) => { %>
+        <li class="list-group-item <%= flair.color %>">
+          <form style="display:initial" action="/topics/<%= topic.id %>/flairs/<%= flair.id %>/destroy" method="post">
+            <button type="submit" class="btn btn-danger">x</button>
+          </form>
+          <span> <%= flair.name %></span>
+        </li>
+      <% }) %>
+      
+
       <hr>
 
    <h1>Posts</h1>
