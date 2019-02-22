@@ -39,5 +39,23 @@ module.exports = {
         .catch((err) => {
             console.log(err);
         });
-    }
+    },
+    updateFlair(id, updatedFlair, callback){
+        return Flair.findById(id)
+        .then((flair) => {
+          if(!flair){
+            return callback("Tag not found");
+          }
+   
+          flair.update(updatedFlair, {
+            fields: Object.keys(updatedFlair)
+          })
+          .then(() => {
+            callback(null, flair);
+          })
+          .catch((err) => {
+            callback(err);
+          });
+        });
+      }
 };

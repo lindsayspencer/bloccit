@@ -38,6 +38,7 @@
       <h3>Tags</h3>
       <% topic.flairs.forEach((flair) => { %>
         <li class="list-group-item <%= flair.color %>">
+          <a href="/topics/<%= topic.id %>/flairs/<%= flair.id %>/edit" class="btn btn-warning">Edit</a>
           <form style="display:initial" action="/topics/<%= topic.id %>/flairs/<%= flair.id %>/destroy" method="post">
             <button type="submit" class="btn btn-danger">x</button>
           </form>
