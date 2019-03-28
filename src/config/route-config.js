@@ -15,4 +15,4 @@ module.exports = {
         app.use(postRoutes);
         app.use(userRoutes);
     }
-}
+};

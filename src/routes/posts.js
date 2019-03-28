@@ -5,7 +5,6 @@ const postController = require("../controllers/postController");
 const validation = require("./validation");
 const helper = require("../auth/helpers");
 
-module.exports = router;
 
 router.get("/topics/:topicId/posts/new", postController.new);
 router.post(
@@ -22,3 +21,5 @@ router.post(
   validation.validatePosts,
   postController.update
 );
+
+module.exports = router;

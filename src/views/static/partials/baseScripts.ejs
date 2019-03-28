@@ -1,4 +1,9 @@
 <!--template partial for basic scripts-->
+<% if(currentUser) { %>
+  <p>Logged in user id: <%= currentUser.id %></p>
+<% } %>
+
+
 <script
         src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
