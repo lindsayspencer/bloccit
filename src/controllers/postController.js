@@ -42,7 +42,6 @@ module.exports = {
     });
   },
   destroy(req, res, next) {
-    console.log(req.params);
     postQueries.deletePost(req, (err, deletedRecordsCount) => {
       if (err) {
         console.log(err);
@@ -71,7 +70,6 @@ module.exports = {
     });
   },
   update(req, res, next) {
-    console.log('update clicked');
     postQueries.updatePost(req, req.body, (err, post) => {
       if (err || post == null) {
         res.redirect(

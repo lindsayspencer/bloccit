@@ -47,7 +47,6 @@ module.exports = {
 
       const authorized = new Authorizer(req.user, post).update();
       if (authorized) {
-        console.log('authorized');
         post
           .update(updatedPost, {
             fields: Object.keys(updatedPost)
