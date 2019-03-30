@@ -10,7 +10,7 @@
         <% include ../static/partials/messages.ejs %>
         <div><a href="/topics/<%= post.topicId %>"><button class="btn">Back to Topic</button></a></div>
       <h1><%= post.title %></h1>
-      <% if(currentUser) { %>
+      <% if((currentUser.id == post.userId) || currentUser.isAdmin) { %>
       <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
       <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>

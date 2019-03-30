@@ -21,17 +21,8 @@ module.exports = {
         callback(err);
       });
   },
-  deletePost(id, callback) {
-    // return Post.destroy({
-    //     where: { id }
-    // })
-    // .then((deletedRecordsCount) => {
-    //     callback(null, deletedRecordsCount);
-    // })
-    // .catch((err) => {
-    //     callback(err);
-    // })
-    return Post.findById(id)
+  deletePost(req, callback) {
+    return Post.findById(req.params.id)
       .then(post => {
         const authorized = new Authorizer(req.user, post).destroy();
         if (authorized) {
@@ -47,9 +38,9 @@ module.exports = {
         callback(err);
       });
   },
-  updatePost(id, updatedPost, callback) {
+  updatePost(req, updatedPost, callback) {
     
-    return Post.findById(id).then(post => {
+    return Post.findById(req.params.id).then(post => {
       if (!post) {
         return callback("Post not found");
       }
