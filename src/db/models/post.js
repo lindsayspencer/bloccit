@@ -57,7 +57,13 @@ module.exports = (sequelize, DataTypes) => {
     });
   });
 
-  
+  Post.addScope("lastFiveFor", (userId) => {
+    return {
+      where: { userId: userId},
+      limit: 5,
+      order: [["createdAt", "DESC"]]
+    }
+  });
 };
   Post.prototype.getPoints = function(){
     if(this.votes.length === 0) return 0
@@ -68,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Post.prototype.getFavoriteFor = function(userId){
     return this.favorites.find((favorite) => { return favorite.userId == userId });
-  };
+  };   
   
   return Post;
 };
