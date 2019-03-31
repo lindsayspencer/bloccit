@@ -2,6 +2,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
+const Vote = require('../../src/db/models').Vote;
 
 describe("Post", () => {
   beforeEach(done => {
@@ -128,6 +129,65 @@ describe("Post", () => {
         expect(associatedUser.email).toBe("starman@tesla.com");
         done();
       });
+    });
+  });
+
+  describe('#getPoints()', () => {
+    it('should return total number of votes with associated post', done => {
+      this.post.votes = [];
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          this.post.votes.push(vote);
+          expect(this.post.getPoints()).toBe(1);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+
+  describe('#hasUpvoteFor()', () => {
+    it('should return true if user has an upvote on this post', done => {
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          this.post.votes = [vote];
+          const hasUpvote = this.post.hasUpvoteFor(vote.userId);
+          expect(hasUpvote).toBe(true);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+  describe('#hasDownvoteFor()', () => {
+    it('should return true if user has an downvote on this post', done => {
+      Vote.create({
+        value: -1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          this.post.votes = [vote];
+          const hasDownvote = this.post.hasDownvoteFor(vote.userId);
+          expect(hasDownvote).toBe(true);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
     });
   });
 });

@@ -67,11 +67,11 @@ describe("Vote", () => {
     });
   });
 
-  //suits will begin here
+  
   describe("#create()", () => {
-    // #2
+    
     it("should create an upvote on a post for a user", done => {
-      // #3
+      
       Vote.create({
         value: 1,
         postId: this.post.id,
@@ -90,7 +90,7 @@ describe("Vote", () => {
         });
     });
 
-    // #5
+    
     it("should create a downvote on a post for a user", done => {
       Vote.create({
         value: -1,
@@ -109,7 +109,22 @@ describe("Vote", () => {
         });
     });
 
-    // #6
+    it("should not create a vote with a value other than 1 or -1", done => {
+      Vote.create({
+        value: 2,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          // skipping to evaluate error
+          done();
+        })
+        .catch(err => {
+          expect(err.message).toContain("Validation error")
+          done();
+        });
+    });
+
     it("should not create a vote without assigned post or user", done => {
       Vote.create({
         value: 1
@@ -128,6 +143,31 @@ describe("Vote", () => {
         });
     });
   });
+
+  it("should not create more than one vote per user for a given post", done => {
+    this.vote;
+    Vote.create({
+      value: 1,
+      postId: this.post.id, 
+      userId: this.user.id
+    })
+      .then(vote => {
+        this.vote = vote;
+        Vote.create({
+          value: -1,
+          postId: this.post.id,
+          userId: this.user.id
+        });
+      })
+      .then((vote) => {
+        expect(vote).toBeUndefined();
+        done();
+      })
+      .catch(err => {
+        done();
+      });
+  });
+});
 
   describe("#setUser()", () => {
     it("should associate a vote and a user together", done => {
@@ -238,5 +278,7 @@ describe("Vote", () => {
           done();
         });
     });
+
+
   });
-});
+
